@@ -1,0 +1,49 @@
+<html>
+<head>
+    <title>component</title>
+</head>
+<body>
+    <div id="app1">
+        <ul>
+            <todo-item 
+            v-for="item in todos"
+            v-bind:todo="item"
+            v-bind:key="item.id"
+            v-on:show="show"
+            ></todo-item>
+        </ul>
+
+        <div>{{todoMsg}}</div>
+
+        <magic-eight-ball @give-advice="showAdvice"></magic-eight-ball>
+        <div>{{advice}}</div>
+    </div>
+
+    <div id="app2">
+        <form @submit.prevent="addNewTodo">
+            <label for="new-todo">添加代办事项</label>
+            <input
+                v-model="newTodo"
+                id="new-todo"
+                placeholder="E.g. 吃饭"
+            >
+            <button>添加</button>
+        </form>
+        <ul>
+            <li
+            is="tpl-todo"
+            v-for="(item,index) in todos"
+            v-bind:title="item.title"
+            v-bind:key="item.id"
+            v-on:remove="todos.splice(index, 1)"
+            ></li>
+        </ul>
+        <div>
+            <span v-if="todos.length !=0">total:{{todos.length}}    <button @click="clearAll">全部清空</button></span>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="component.js"></script>
+</body>
+
+</html>

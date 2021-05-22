@@ -15,60 +15,11 @@
         <table border="=1">
             <th>key</th>
             <th>value</th>
-
-            <tr>
-                <td>caption</td>
-                <td>{{caption}}</td>
+			
+			<tr v-for="(v,k) in $data">
+                <td>{{k}}</td>
+                <td>{{v}}</td>
             </tr>
-
-            <tr>
-                <td>url</td>
-                <td>{{url}}</td>
-            </tr>
-
-            <tr>
-                <td>age</td>
-                <td>{{age}}</td>
-            </tr>
-
-            <tr>
-                <td>incrAgeMsg</td>
-                <td>{{incrAgeMsg}}</td>
-            </tr>
-
-            <tr>
-                <td>decrAgeMsg</td>
-                <td>{{decrAgeMsg}}</td>
-            </tr>
-
-            <tr>
-                <td>colorRed</td>
-                <td>{{colorRed}}</td>
-            </tr>
-
-            <tr>
-                <td>isRed</td>
-                <td>{{isRed}}</td>
-            </tr>
-
-            <tr>
-                <td>inputMsg</td>
-                <td>{{inputMsg}}</td>
-            </tr>
-
-            <tr>
-                <td>citys</td>
-                <td>{{citys}}</td>
-            </tr>
-            <tr>
-                <td>students</td>
-                <td>{{students}}</td>
-            </tr>
-            <tr>
-                <td>todos</td>
-                <td>{{todos}}</td>
-            </tr>
-
         </table>
         <table border="1">
             <th>指令</th>

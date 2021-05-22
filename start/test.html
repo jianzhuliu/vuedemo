@@ -1,0 +1,67 @@
+<html>
+
+<head>
+    <title>test</title>
+</head>
+
+<body>
+    <div id="app1">
+        <table border="=1">
+            <th>key</th>
+            <th>value</th>
+
+            <tr v-for="(v,k) in $data">
+                <td>{{k}}</td>
+                <td>{{v}}</td>
+            </tr>
+        </table>
+        <div>
+            <p>name: {{name}}</p>
+            <p v-once>v-once后期改变不影响 | name:{{name}}</p>
+            <button @[eventname]="name='jack'">改变name</button>
+        </div>
+
+        <div>
+            <button :disabled="isDisabled">是否不可点击 {{isDisabled}}</button>
+            <button @click="isDisabled= !isDisabled">改成 {{!isDisabled}}</button>
+        </div>
+        <div>
+            <span>watch x change</span> | <span>{{watchXMsg}}</span>
+            <button @click="x=5, y=8">改变x及y</button>
+            <button @click="x=1, y=5">再次改变x及y</button>
+        </div>
+
+        <div>
+            <label for="input1">计算属性</label><input id="input1" v-model="inputMsg">
+            <span>{{reverseInputMsg}}</span>
+        </div>
+
+        <div v-if="Math.random() > 0.5">
+            Now you see me
+        </div>
+
+        <div v-else-if="Math.random() > 0.4">
+            Yes, try again
+        </div>
+
+        <div v-else>
+            Oh, NO
+        </div>
+
+        <div>
+            <ul>
+                <li v-for="n in evenNumbers">{{ n }}</li>
+            </ul>
+
+        </div>
+
+        <div>
+            <span v-for="n in 10">{{n}}</span>
+        </div>
+    </div>
+    <div id="app0"></div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="test.js"></script>
+</body>
+
+</html>
