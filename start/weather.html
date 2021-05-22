@@ -1,0 +1,23 @@
+<html>
+
+<head>
+    <title>axios</title>
+</head>
+
+<body>
+    <div id="app">
+        <span>查询天气，输入城市,回车</span>
+        <input type="text" v-model="city" @keyup.enter="getWeather">
+        <span v-for="item in cityHots" @click="changeCity(item)">{{item}} </span>
+        <ul>
+            <li v-for="item in weatherList">
+                <span>{{item.date}} | {{item.type}} | {{item.low}} | {{item.high}} </span>
+            </li>
+        </ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="weather.js"></script>
+</body>
+
+</html>

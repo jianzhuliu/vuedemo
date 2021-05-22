@@ -1,0 +1,79 @@
+<html>
+    <head>
+        <title>axios</title>
+    </head>
+    <body>
+        <input type="button" value="get" class="get">
+        <input type="button" value="get2" class="get2">
+        <input type="button" value="get3" class="get3">
+        <div id="app">  
+            <input type="button" value="获取笑话" @click="getJoke">
+            <p>{{ joke }}</p>
+
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            document.querySelector(".get").onclick = function(){
+                axios.get("https://autumnfish.cn/api/joke/list", {
+                    params:{num:3}
+                })
+                .then(function(response){
+                    console.log(response);
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+                .then(function(){
+                    console.log("always do")
+                })
+            }
+            document.querySelector(".get2").onclick = function(){
+                axios.get("https://autumnfish.cn/api/joke/list?num=4")
+                .then(function(response){
+                    console.log(response);
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+                .then(function(){
+                    console.log("always do")
+                })
+            }
+            document.querySelector(".get3").onclick = function(){
+                axios.get("https://autumnfish.cn/api/joke")
+                .then(function(response){
+                    console.log(response);
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+                .then(function(){
+                    console.log("always do")
+                })
+            }
+            var app = new Vue({
+                el:"#app",
+                data:{
+                    joke:"笑话"
+                },
+                methods:{
+                    getJoke: function(){
+                        console.log(this.joke);
+                        var that = this;
+                        axios.get("https://autumnfish.cn/api/joke")
+                        .then(function(response){
+                            console.log(response.data);
+                            //console.log(this.joke);
+                            that.joke = response.data;
+                        })
+                        .catch(function(error){
+                            console.log(error);
+                        })
+                    }
+                }
+            })
+            
+        </script>
+    </body>
+</html>

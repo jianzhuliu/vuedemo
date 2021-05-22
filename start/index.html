@@ -1,0 +1,238 @@
+<html>
+
+<head>
+    <title>vue</title>
+    <style>
+        .red {
+            color: red
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <caption>{{caption}}</caption>
+        <table border="=1">
+            <th>key</th>
+            <th>value</th>
+
+            <tr>
+                <td>caption</td>
+                <td>{{caption}}</td>
+            </tr>
+
+            <tr>
+                <td>url</td>
+                <td>{{url}}</td>
+            </tr>
+
+            <tr>
+                <td>age</td>
+                <td>{{age}}</td>
+            </tr>
+
+            <tr>
+                <td>incrAgeMsg</td>
+                <td>{{incrAgeMsg}}</td>
+            </tr>
+
+            <tr>
+                <td>decrAgeMsg</td>
+                <td>{{decrAgeMsg}}</td>
+            </tr>
+
+            <tr>
+                <td>colorRed</td>
+                <td>{{colorRed}}</td>
+            </tr>
+
+            <tr>
+                <td>isRed</td>
+                <td>{{isRed}}</td>
+            </tr>
+
+            <tr>
+                <td>inputMsg</td>
+                <td>{{inputMsg}}</td>
+            </tr>
+
+            <tr>
+                <td>citys</td>
+                <td>{{citys}}</td>
+            </tr>
+            <tr>
+                <td>students</td>
+                <td>{{students}}</td>
+            </tr>
+            <tr>
+                <td>todos</td>
+                <td>{{todos}}</td>
+            </tr>
+
+        </table>
+        <table border="1">
+            <th>指令</th>
+            <th>实例</th>
+            <th>描述</th>
+
+            <tr>
+                <td>v-html</td>
+                <td><span v-html="url">url:</span></td>
+                <td>解析html标签</td>
+            </tr>
+
+            <tr>
+                <td>v-text</td>
+                <td><span v-text="url">url:</span></td>
+                <td>原样显示</td>
+            </tr>
+
+            <tr>
+                <td>v-on</td>
+                <td><button v-on:click="incrAge">incrAge</button></td>
+                <td><span :style="colorRed">{{incrAgeMsg}}</span></td>
+            </tr>
+
+            <tr>
+                <td>v-on</td>
+                <td><button @click="decrAge">decrAge</button></td>
+                <td>缩写 @click <span :style="colorRed">{{decrAgeMsg}}</span></td>
+            </tr>
+
+            <tr>
+                <td>v-if</td>
+                <td><span v-if="age>6">age>6 show</span></td>
+                <td>v-if 操作 dom树，移除或者添加</td>
+            </tr>
+
+            <tr>
+                <td>v-show</td>
+                <td><span v-show="age>8">age>8 show</span></td>
+                <td>v-show 修改元素属性 display</td>
+            </tr>
+
+            <tr>
+                <td>v-bind</td>
+                <td><span v-bind:class="isRed?'red':''">v-bind</span></td>
+                <td>支持三元表达式 isRed?'red':'' </td>
+            </tr>
+            <tr>
+                <td>v-bind</td>
+                <td><span v-bind:class="{red:isRed}">v-bind</span></td>
+                <td>对象方式 {red:isRed}</td>
+            </tr>
+            <tr>
+                <td>v-bind</td>
+                <td><span :class="{red:isRed}">v-bind</span></td>
+                <td>缩写 :href </td>
+            </tr>
+
+            <tr>
+                <td>v-model</td>
+                <td><input type="text" v-model="inputMsg" @keyup.enter="doInput" /></td>
+                <td>数据双向绑定</td>
+            </tr>
+
+            <tr>
+                <td>v-for</td>
+                <td>
+                    <ul>
+                        <li v-for="item in citys">{{item}}</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li v-for="(item,index) in citys">{{index+1}} | {{item}}</li>
+                    </ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td>v-for</td>
+                <td>
+                    <ul>
+                        <li v-for="item in students">{{item.name}}</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li v-for="(item, index) in students">{{index + 1}} | {{item.name}}</li>
+                    </ul>
+                </td>
+            </tr>
+
+        </table>
+
+        <div>
+            <span>todos</span><br />
+            <span><input type="text" v-model="todo" @keyup.enter="addTodo"></span><br />
+            <ul>
+                <li v-for="(item, index) in todos">{{index +1}}、{{item}} <a href="javascript:void(0);"
+                        @click="delTodo(index)">delete</a> </li>
+            </ul>
+            <span v-if="todos.length>0">total:{{todos.length}} <a href="javascript:void(0);"
+                    @click="clearTodos">clearAll</a></span>
+
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                caption: "table caption",
+                url: '<a href="cn.vuejs.org">vuejs<a>',
+                age: 8,
+                incrAgeMsg: "",
+                decrAgeMsg: "",
+                colorRed: "color:red",
+                isRed: true,
+                inputMsg: "input default msg",
+                citys: ["广州", "北京", "上海"],
+                students: [{ name: "jianzhu" }, { name: "bob" }, { name: "jack" }],
+                todo: "",
+                todos: []
+
+            },
+            methods: {
+                incrAge: function () {
+                    if (this.age >= 10) {
+                        this.incrAgeMsg = "this age is max,cannot add";
+                    } else {
+                        console.log("incrAge")
+                        this.decrAgeMsg = "";
+                        this.age++;
+                    }
+                },
+                decrAge: function () {
+                    if (this.age <= 0) {
+                        this.decrAgeMsg = "this age is min, cannot desc";
+                    } else {
+                        console.log("decrAge")
+                        this.incrAgeMsg = "";
+                        this.age--;
+                    }
+                },
+                doInput: function () {
+                    alert(this.inputMsg);
+                },
+                addTodo: function () {
+                    this.todos.push(this.todo);
+                    this.todo = ""
+                },
+                delTodo: function (index) {
+                    console.log("delTodo", index)
+                    this.todos.splice(index, 1)
+                },
+                clearTodos: function () {
+                    console.log("clearAll")
+                    this.todos = []
+                }
+            }
+
+        })
+
+    </script>
+</body>
+
+</html>
