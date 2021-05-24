@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<title>vue slot</title>
+	</head>
+	<body>
+		<div id="app">
+			<todos-title slot="todos-title" :title="title"></todos-title>
+			<todos-items slot="todos-items" 
+			v-for="(item,index) in items" 
+			:item="item"
+			:index="index"
+			@remove="removeItem"
+			></todos-items>
+		</div>
+		<script>
+			Vue.component("todos",{
+				template:`<div>
+				<slot name="todos-input"></slot>
+				<slot name="todos-title"></slot>
+				<ul>
+				<slot name="todos-items"></slot>
+				</ul>
+				</div>`
+			})
+			
+			Vue.component("todos-title",{
+				props:["title"],
+				template:`<div>{{title}}</div>`
+			})
+			Vue.component("todos-items",{
+				props:["index", "item"],
+				template:`<li>{{index +1}}、{{item}} <button @click="remove">删除</button></li>`,
+				methods:{
+					remove:function(){
+						this.$emit("remove");
+					}
+				}
+			})
+			var app = new Vue({
+				el:"#app",
+				data:{
+					title:"城市列表",
+					items:["北京","上海","广州", "深圳"],
+				},
+				methods:{
+					removeItem:function(index){
+						this.items.splice(index, 1);
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
