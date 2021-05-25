@@ -9,11 +9,35 @@ class Store {
 		// 	data: arg.state
 		// })
 
+		this._wappedGetters = arg.getters
+
+		//对外暴露方法，可使用 $store.getters.获取
+		this.getters = {}
+
+		const computed = {}
+		const store = this;
+		Object.keys(this._wappedGetters).forEach(
+			key => {
+				//获取用户自定义的函数
+				const fn = store._wappedGetters[key]
+				computed[key] = function() {
+					return fn(store.state);
+				}
+
+				//为 getters 定义只读属性
+				Object.defineProperty(store.getters, key, {
+					get: () => store._vm[key]
+				})
+			}
+		)
+
+
 		//包装一层，避免外部意外设置
 		this._vm = new Vue({
 			data: {
 				$$store: arg.state
-			}
+			},
+			computed: computed
 		})
 
 		//私有属性
@@ -37,6 +61,7 @@ class Store {
 		const entry = this._mutations[type]
 		if (!entry) {
 			console.error("unknow mutation ", type)
+			return
 		}
 		entry(this.state)
 	}
@@ -45,6 +70,7 @@ class Store {
 		const entry = this._actions[type]
 		if (!entry) {
 			console.error("unknow action ", type)
+			return
 		}
 		entry(this)
 	}

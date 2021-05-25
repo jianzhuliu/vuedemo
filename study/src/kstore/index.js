@@ -6,10 +6,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
+		//状态或者数据
 		counter: 0
 	},
 	mutations: {
 		//commit 触发
+		//更改状态
 		add(state) {
 			state.counter++
 			console.log("[store] commit add ", state.counter);
@@ -17,6 +19,7 @@ export default new Vuex.Store({
 	},
 	actions: {
 		//dispatch 触发
+		//异步操作
 		add({
 			commit
 		}) {
@@ -26,5 +29,10 @@ export default new Vuex.Store({
 			}, 1000);
 		}
 	},
-	modules: {}
+	modules: {},
+	getters: {
+		doubleCounter(state){
+			return state.counter *2;
+		}
+	}
 })
