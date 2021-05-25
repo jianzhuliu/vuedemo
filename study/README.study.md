@@ -8,5 +8,11 @@
 ### 自定义路由插件
 - krouter
 
+### 添加 vuex 
+- vue add vuex 
+
+### 自定义 vuex 
+- kvuex
+
 ### 运行
-- vue run serve
+- npm run serve
