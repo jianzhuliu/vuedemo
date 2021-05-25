@@ -7,6 +7,6 @@
 ## vue-cli 
 - npm install -g @vue/cli
 - vue --version
-- vue create demo1
-- cd demo1 
+- vue create demo
+- cd demo 
 - npm run serve
