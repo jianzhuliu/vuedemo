@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>kvue</title>
+		<!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+		<script src="kvue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<p>{{counter}}</p>
+			<p>{{counter}}</p>
+			<p k-text="counter"></p>
+			<p k-html="msg"></p>
+		</div>
+		<script>
+			var app = new Kvue({
+				el: "#app",
+				data: {
+					counter: 0,
+					msg:"message"
+				}
+			});
+			//代理 data
+			console.log(app.counter);
+		</script>
+	</body>
+</html>
