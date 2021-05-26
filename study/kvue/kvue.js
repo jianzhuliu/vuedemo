@@ -4,7 +4,7 @@ function defineReactive(obj, key, val) {
 
 	//值是个对象时，需要再次处理
 	observe(val)
-	
+
 	//每个 key 对应一个 Dep 对象
 	const dep = new Dep()
 
@@ -15,7 +15,7 @@ function defineReactive(obj, key, val) {
 				//如果新值是对象，需要重新处理响应式
 				observe(newVal)
 				val = newVal
-				
+
 				//通知 watcher 更新
 				dep.notify()
 			}
@@ -134,6 +134,9 @@ class Compile {
 				let dir = attrName.substring(2);
 				//存在对应指令方法，直接调用
 				this[dir] && this[dir](node, exp);
+			} else if (this.isEvent(attrName)) {
+				let eventName = attrName.substring(1);
+				this.eventHandler(node, exp, eventName);
 			}
 		})
 	}
@@ -142,6 +145,11 @@ class Compile {
 	isDirective(attrName) {
 		return attrName.startsWith("k-")
 		// return attrName.indexOf("k-") == 0;
+	}
+
+	//是否为事件 @click="double"
+	isEvent(attrName) {
+		return attrName.startsWith("@");
 	}
 
 	// k-text="counter"
@@ -153,30 +161,51 @@ class Compile {
 	html(node, exp) {
 		this.update(node, exp, "html");
 	}
-	
+
 	//统一管理指令渲染,有公用的部分，且可以做统一监控
 	update(node, exp, directive) {
 		//获取对应指令更新方法，并执行
 		const updateFn = this[directive + "Updater"]
-	
+
 		if (updateFn) {
 			updateFn(node, this.$kvue[exp])
-			
+
 			//创建一个 watcher
 			new Watcher(this.$kvue, exp, function(value) {
 				updateFn(node, value)
 			})
 		}
 	}
-	
+
 	//文本渲染
 	textUpdater(node, value) {
 		node.textContent = value;
 	}
-	
+
 	//html渲染
 	htmlUpdater(node, value) {
 		node.innerHTML = value;
+	}
+
+	//事件处理
+	eventHandler(node, exp, eventName) {
+		const fn = this.$kvue.$options.methods && this.$kvue.$options.methods[exp]
+		if (fn) {
+			node.addEventListener(eventName, fn.bind(this.$kvue))
+		}
+	}
+
+	//k-model="msg"
+	model(node, exp) {
+		//1、渲染视图
+		this.update(node, exp, "model");
+
+		//2、监听事件
+		node.addEventListener("input", e=> this.$kvue[exp] = e.target.value);
+	}
+
+	modelUpdater(node, value) {
+		node.value = value;
 	}
 }
 
@@ -186,14 +215,14 @@ class Watcher {
 		this.$kvue = kvue
 		this.$key = key
 		this.$updateFn = updateFn
-		
+
 		//创建 Watcher 时，自动添加到 Dep 中
 		//定义变量，标识自己
-		Dep.watcher = this 
+		Dep.watcher = this
 		//手动执行获取数据，以便添加自己到 Dep 中
 		this.$kvue[this.$key]
 		//处理完毕，置空
-		Dep.watcher = null 
+		Dep.watcher = null
 	}
 
 	//当数据变更时调用，统一由 Dep管理触发
@@ -203,18 +232,18 @@ class Watcher {
 }
 
 //管理 Watcher，更新触发操作
-class Dep{
-	constructor(){
+class Dep {
+	constructor() {
 		this.watchers = []
 	}
-	
+
 	//添加 Watcher
-	addWatcher(watcher){
+	addWatcher(watcher) {
 		this.watchers.push(watcher)
 	}
-	
+
 	//通知更新
-	notify(){
+	notify() {
 		this.watchers.forEach(watcher => watcher.update())
 	}
 }

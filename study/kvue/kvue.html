@@ -8,17 +8,31 @@
 	</head>
 	<body>
 		<div id="app">
+			<!-- 插值 -->
 			<p>{{counter}}</p>
 			<p>{{counter}}</p>
+			<!-- 指令 -->
 			<p k-text="counter"></p>
 			<p k-html="msg"></p>
+			<!-- 事件 -->
+			<button @click="addCounter">加1</button>
+			<div>
+				<!-- model -->
+				<label for="msg">修改msg</label>
+				<input id="msg" type="text" k-model="msg" />
+			</div>
 		</div>
 		<script>
 			var app = new Kvue({
 				el: "#app",
 				data: {
 					counter: 0,
-					msg:"message"
+					msg: "<a href='#'>msg</a>"
+				},
+				methods: {
+					addCounter() {
+						this.counter++;
+					}
 				}
 			});
 			//代理 data
